@@ -10,6 +10,10 @@ const startServer = async () => {
     console.log("Database connection established.");
   } catch (err) {
     console.error("Failed to connect to the database. Exiting...");
+    console.error(`Error Message: ${err.message}`);
+    if (err.code) console.error(`Error Code: ${err.code}`);
+    if (err.errno) console.error(`Error Errno: ${err.errno}`);
+    if (err.sqlState) console.error(`Error SQLState: ${err.sqlState}`);
     process.exit(1);
   }
 
