@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/formatPrice';
 import { getImageUrl } from '../utils/imageUrl';
 import './ProductCard.css';
 
@@ -44,7 +45,7 @@ export const ProductCard = ({ product }) => {
         <div className="product-header">
           <h3 className="product-title">{product.name}</h3>
           <span className="product-price">
-            {Number(product.price).toFixed(2)} <small>{currency}</small>
+            {formatPrice(product.price)} <small>{currency}</small>
           </span>
         </div>
 

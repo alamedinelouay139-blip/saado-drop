@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/formatPrice';
 import { api } from '../services/api';
 import { getImageUrl } from '../utils/imageUrl';
 import './CartDrawer.css';
@@ -102,7 +103,7 @@ export const CartDrawer = () => {
             </p>
 
             <div className="delivery-disclaimer-card">
-              <span>⚠️ Delivery fee is not included in the subtotal ({completedOrder.subtotal} {currency}) and will be added via WhatsApp.</span>
+              <span>⚠️ Delivery fee is not included in the subtotal ({formatPrice(completedOrder.subtotal)} {currency}) and will be added via WhatsApp.</span>
             </div>
 
             <a
@@ -140,7 +141,7 @@ export const CartDrawer = () => {
                     <div className="cart-item-info">
                       <h4 className="cart-item-title">{product.name}</h4>
                       <span className="cart-item-price">
-                        {Number(product.price).toFixed(2)} {currency}
+                        {formatPrice(product.price)} {currency}
                       </span>
                     </div>
 
@@ -246,12 +247,12 @@ export const CartDrawer = () => {
                   <div className="summary-row">
                     <span>Subtotal</span>
                     <span className="summary-subtotal">
-                      {subtotal.toFixed(2)} {currency}
+                      {formatPrice(subtotal)} {currency}
                     </span>
                   </div>
 
                   <button type="submit" className="btn-gold submit-order-btn" disabled={loading}>
-                    {loading ? 'PROCESSING...' : `PLACE ORDER • ${subtotal.toFixed(2)} ${currency}`}
+                    {loading ? 'PROCESSING...' : `PLACE ORDER • ${formatPrice(subtotal)} ${currency}`}
                   </button>
                 </div>
               </form>

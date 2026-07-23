@@ -6,6 +6,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContext';
 import { api } from '../services/api';
+import { formatPrice } from '../utils/formatPrice';
 import { getImageUrl } from '../utils/imageUrl';
 import './AdminDashboard.css';
 
@@ -571,7 +572,7 @@ export const AdminDashboard = ({ onClose }) => {
                             {o.order_type.toUpperCase()}
                           </span>
                         </td>
-                        <td className="font-mono">{Number(o.subtotal).toFixed(2)}</td>
+                        <td className="font-mono">{formatPrice(o.subtotal)}</td>
                         <td>
                           <select
                             className={`status-select status-${o.status}`}
@@ -714,7 +715,7 @@ export const AdminDashboard = ({ onClose }) => {
                         {p.is_active === 0 && <span className="deactivated-badge" style={{ marginLeft: '8px', background: '#333', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontSize: '11px' }}>Archived</span>}
                       </td>
                       <td>{categories.find((c) => c.id === p.category_id)?.name || 'General'}</td>
-                      <td className="font-mono text-gold">{Number(p.price).toFixed(2)}</td>
+                      <td className="font-mono text-gold">{formatPrice(p.price)}</td>
                       <td>
                         {p.is_active === 1 ? (
                           <span className={`avail-badge ${p.is_available === 1 ? 'open' : 'closed'}`}>
@@ -965,13 +966,13 @@ export const AdminDashboard = ({ onClose }) => {
                 {selectedOrder.items.map((it) => (
                   <li key={it.id}>
                     <span>{it.quantity}x {it.product_name}</span>
-                    <span className="font-mono">{Number(it.line_total).toFixed(2)}</span>
+                    <span className="font-mono">{formatPrice(it.line_total)}</span>
                   </li>
                 ))}
               </ul>
               <div className="order-details-total">
                 <span>Subtotal:</span>
-                <span className="text-gold font-mono">{Number(selectedOrder.subtotal).toFixed(2)}</span>
+                <span className="text-gold font-mono">{formatPrice(selectedOrder.subtotal)}</span>
               </div>
             </div>
           </div>

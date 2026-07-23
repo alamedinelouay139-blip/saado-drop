@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ShoppingBag, Lock, Menu as MenuIcon, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/formatPrice';
 import './Navbar.css';
 
 export const Navbar = ({ onOpenAdmin, activeTab, setActiveTab }) => {
@@ -48,7 +49,7 @@ export const Navbar = ({ onOpenAdmin, activeTab, setActiveTab }) => {
             <span className="cart-count">{totalItems}</span>
             {totalItems > 0 && (
               <span className="cart-total-badge">
-                {subtotal.toFixed(2)} {currency}
+                {formatPrice(subtotal)} {currency}
               </span>
             )}
           </button>
