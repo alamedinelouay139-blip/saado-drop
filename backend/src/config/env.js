@@ -20,9 +20,10 @@ for (const env of requiredEnvs) {
   }
 }
 
-// Log if ImageKit is missing but do not crash
+// Log if ImageKit is missing and crash startup
 if (!process.env.IMAGEKIT_PUBLIC_KEY || !process.env.IMAGEKIT_PRIVATE_KEY || !process.env.IMAGEKIT_URL_ENDPOINT) {
-  console.warn('WARNING: ImageKit credentials are not fully configured in the environment.');
+  console.error('FATAL ERROR: ImageKit credentials are not fully configured in the environment.');
+  process.exit(1);
 }
 
 // Helper to sanitize env vars
