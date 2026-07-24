@@ -10,10 +10,7 @@ const requiredEnvs = [
   'DB_NAME',
   'DB_USER',
   'JWT_SECRET',
-  'CORS_ORIGIN',
-  'IMAGEKIT_PUBLIC_KEY',
-  'IMAGEKIT_PRIVATE_KEY',
-  'IMAGEKIT_URL_ENDPOINT'
+  'CORS_ORIGIN'
 ];
 
 for (const env of requiredEnvs) {
@@ -21,6 +18,11 @@ for (const env of requiredEnvs) {
     console.error(`FATAL ERROR: Environment variable ${env} is missing or empty.`);
     process.exit(1);
   }
+}
+
+// Log if ImageKit is missing but do not crash
+if (!process.env.IMAGEKIT_PUBLIC_KEY || !process.env.IMAGEKIT_PRIVATE_KEY || !process.env.IMAGEKIT_URL_ENDPOINT) {
+  console.warn('WARNING: ImageKit credentials are not fully configured in the environment.');
 }
 
 // Helper to sanitize env vars
