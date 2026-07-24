@@ -40,6 +40,7 @@ export const AdminDashboard = ({ onClose }) => {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [newProductModal, setNewProductModal] = useState(false);
+  const [isSubmittingProduct, setIsSubmittingProduct] = useState(false);
 
   // Form State for Product Creation/Edit
   const [prodName, setProdName] = useState('');
@@ -249,6 +250,8 @@ export const AdminDashboard = ({ onClose }) => {
   // Create Product Submit
   const handleProductSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmittingProduct) return;
+    setIsSubmittingProduct(true);
     setErrorMsg(null);
     const formData = new FormData();
     formData.append('name', prodName);
@@ -269,6 +272,8 @@ export const AdminDashboard = ({ onClose }) => {
       fetchProductsAndCategories();
     } catch (err) {
       setErrorMsg(err.message || 'Failed to save product');
+    } finally {
+      setIsSubmittingProduct(false);
     }
   };
 
@@ -1079,7 +1084,9 @@ export const AdminDashboard = ({ onClose }) => {
                 <label>Image Upload (JPEG, PNG, WEBP)</label>
                 <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setProdImage(e.target.files[0])} />
               </div>
-              <button type="submit" className="btn-gold" style={{ marginTop: '12px' }}>Save Product</button>
+              <button type="submit" className="btn-gold" style={{ marginTop: '12px' }} disabled={isSubmittingProduct}>
+                {isSubmittingProduct ? 'Saving...' : 'Save Product'}
+              </button>
             </form>
           </div>
         </div>

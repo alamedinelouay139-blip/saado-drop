@@ -17,18 +17,21 @@ const errorMiddleware = require("./middleware/error.middleware");
 
 const app = express();
 
-// 1. Security middleware
+// 1. Trust proxy configuration (Required for Railway/Vercel and express-rate-limit)
+app.set('trust proxy', 1);
+
+// 2. Security middleware
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" })); // Allow serving images to frontend
 
-// 2. CORS
+// 3. CORS
 app.use(cors({
   origin: config.CORS_ORIGIN,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// 3. Global rate limiting
+// 4. Global rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 200, // limit each IP to 200 requests per windowMs

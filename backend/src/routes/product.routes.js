@@ -23,6 +23,33 @@ const handleImageUpload = (req, res, next) => {
       console.error('Multer upload error:', err);
       return res.status(400).json({ success: false, message: 'File upload error', error: err.message });
     }
+    
+    if (req.file) {
+      const buf = req.file.buffer;
+      if (!buf || buf.length < 12) {
+        return res.status(400).json({ success: false, message: 'Invalid image file content' });
+      }
+      const hex = buf.toString('hex', 0, 12);
+      let isValidSignature = false;
+      
+      // PNG: 89504e470d0a1a0a
+      if (req.file.mimetype === 'image/png' && hex.startsWith('89504e470d0a1a0a')) {
+        isValidSignature = true;
+      }
+      // JPEG: ffd8ff
+      else if (req.file.mimetype === 'image/jpeg' && hex.startsWith('ffd8ff')) {
+        isValidSignature = true;
+      }
+      // WEBP: starts with 52494646 (RIFF), chars 8-11 are 57454250 (WEBP)
+      else if (req.file.mimetype === 'image/webp' && hex.startsWith('52494646') && hex.substring(16, 24) === '57454250') {
+        isValidSignature = true;
+      }
+      
+      if (!isValidSignature) {
+        return res.status(400).json({ success: false, message: 'File signature does not match expected image type' });
+      }
+    }
+    
     next();
   });
 };

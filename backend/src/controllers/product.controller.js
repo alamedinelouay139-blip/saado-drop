@@ -145,7 +145,7 @@ const createProduct = async (req, res) => {
   let imageFileId = null;
 
   try {
-    const uploadResult = await imageService.uploadProductImage(file.buffer, file.originalname);
+    const uploadResult = await imageService.uploadProductImage(file.buffer, file.originalname, file.mimetype);
     imageUrl = uploadResult.secure_url;
     imageFileId = uploadResult.fileId;
   } catch (err) {
@@ -209,7 +209,7 @@ const updateProduct = async (req, res) => {
   
   if (file) {
     try {
-      const uploadResult = await imageService.uploadProductImage(file.buffer, file.originalname);
+      const uploadResult = await imageService.uploadProductImage(file.buffer, file.originalname, file.mimetype);
       updateData.image_url = uploadResult.secure_url;
       updateData.image_file_id = uploadResult.fileId;
       newImageFileId = uploadResult.fileId;

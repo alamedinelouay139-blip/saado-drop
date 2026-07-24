@@ -12,7 +12,7 @@ if (env.IMAGEKIT_PUBLIC_KEY && env.IMAGEKIT_PRIVATE_KEY && env.IMAGEKIT_URL_ENDP
   });
 }
 
-const uploadProductImage = async (fileBuffer, originalName) => {
+const uploadProductImage = async (fileBuffer, originalName, mimeType) => {
   if (!imagekit) {
     throw new Error('ImageKit credentials are not configured.');
   }
@@ -21,11 +21,10 @@ const uploadProductImage = async (fileBuffer, originalName) => {
   const ext = originalName.split('.').pop();
   const fileName = `product-${uniqueSuffix}.${ext}`;
 
-  // ImageKit SDK is more stable with base64 strings than raw Buffers
-  const base64String = fileBuffer.toString('base64');
+  const fileData = `data:${mimeType};base64,${fileBuffer.toString('base64')}`;
 
   const uploadPromise = imagekit.upload({
-    file: base64String,
+    file: fileData,
     fileName: fileName,
     folder: '/saado-drop/products',
   });
