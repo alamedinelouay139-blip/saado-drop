@@ -35,13 +35,37 @@ const uploadProductImage = async (fileBuffer, originalName, mimeType) => {
 
   try {
     const result = await Promise.race([uploadPromise, timeoutPromise]);
+    
+    // Log safe success details as requested
+    console.log('ImageKit upload success:', {
+      fileId: result.fileId,
+      url: result.url,
+      name: result.name,
+      filePath: result.filePath,
+      fileType: result.fileType
+    });
+
     return {
       secure_url: result.url,
       fileId: result.fileId,
     };
   } catch (error) {
-    console.error('ImageKit upload error:', error.message);
-    throw new Error('Failed to upload image to ImageKit');
+    console.error('=== IMAGEKIT UPLOAD ERROR ===');
+    console.error('error.name:', error.name);
+    console.error('error.message:', error.message);
+    console.error('error.statusCode:', error.statusCode);
+    console.error('error.response?.status:', error.response?.status);
+    console.error('error.response?.data:', error.response?.data);
+    
+    console.error('=== UPLOAD PARAMS ===');
+    console.error('originalName:', originalName);
+    console.error('mimeType:', mimeType);
+    console.error('file size (bytes):', fileBuffer.length);
+    console.error('Data URI prefix:', fileData.substring(0, 50));
+    console.error('fileName:', fileName);
+    console.error('=============================');
+    
+    throw new Error(error.message || 'Failed to upload image to ImageKit');
   }
 };
 
