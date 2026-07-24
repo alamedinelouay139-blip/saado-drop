@@ -12,12 +12,6 @@ if (env.IMAGEKIT_PUBLIC_KEY && env.IMAGEKIT_PRIVATE_KEY && env.IMAGEKIT_URL_ENDP
   });
 }
 
-/**
- * Uploads a product image buffer to ImageKit.
- * @param {Buffer} fileBuffer - The image file buffer.
- * @param {string} originalName - Original filename.
- * @returns {Promise<{ secure_url: string, fileId: string }>}
- */
 const uploadProductImage = async (fileBuffer, originalName) => {
   if (!imagekit) {
     throw new Error('ImageKit credentials are not configured.');
@@ -27,16 +21,29 @@ const uploadProductImage = async (fileBuffer, originalName) => {
   const ext = originalName.split('.').pop();
   const fileName = `product-${uniqueSuffix}.${ext}`;
 
-  const result = await imagekit.upload({
-    file: fileBuffer,
+  // ImageKit SDK is more stable with base64 strings than raw Buffers
+  const base64String = fileBuffer.toString('base64');
+
+  const uploadPromise = imagekit.upload({
+    file: base64String,
     fileName: fileName,
     folder: '/saado-drop/products',
   });
 
-  return {
-    secure_url: result.url,
-    fileId: result.fileId,
-  };
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error('ImageKit upload timed out after 15 seconds')), 15000);
+  });
+
+  try {
+    const result = await Promise.race([uploadPromise, timeoutPromise]);
+    return {
+      secure_url: result.url,
+      fileId: result.fileId,
+    };
+  } catch (error) {
+    console.error('ImageKit upload error:', error.message);
+    throw new Error('Failed to upload image to ImageKit');
+  }
 };
 
 /**
