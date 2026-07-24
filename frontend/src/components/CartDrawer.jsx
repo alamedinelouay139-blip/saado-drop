@@ -3,6 +3,7 @@ import { X, Trash2, Plus, Minus, Send, CheckCircle2, AlertCircle } from 'lucide-
 import { useCart } from '../context/CartContext';
 import { useShop } from '../context/ShopContext';
 import { formatPrice } from '../utils/formatPrice';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../services/api';
 import { getImageUrl } from '../utils/imageUrl';
 import './CartDrawer.css';
@@ -10,6 +11,7 @@ import './CartDrawer.css';
 export const CartDrawer = () => {
   const { cart, updateQuantity, removeFromCart, clearCart, subtotal, isCartOpen, setIsCartOpen } = useCart();
   const { shopSettings } = useShop();
+  const { t } = useLanguage();
 
   const [orderType, setOrderType] = useState('delivery');
   const [customerName, setCustomerName] = useState('');
@@ -84,8 +86,8 @@ export const CartDrawer = () => {
         {/* Drawer Header */}
         <div className="cart-drawer-header">
           <div className="drawer-title-group">
-            <h2 className="drawer-title">YOUR SELECTION</h2>
-            <span className="drawer-item-count">{cart.length} ITEMS</span>
+            <h2 className="drawer-title">{t('YOUR SELECTION')}</h2>
+            <span className="drawer-item-count">{cart.length} {t('ITEMS')}</span>
           </div>
           <button className="drawer-close-btn" onClick={handleClose}>
             <X size={20} />
@@ -96,14 +98,14 @@ export const CartDrawer = () => {
         {completedOrder ? (
           <div className="cart-success-view">
             <CheckCircle2 size={54} className="text-gold" />
-            <h3 className="success-title">ORDER PLACED!</h3>
-            <p className="success-subtitle">Order Number: <strong>#{completedOrder.order_number}</strong></p>
+            <h3 className="success-title">{t('ORDER PLACED!')}</h3>
+            <p className="success-subtitle">{t('Order Number:')} <strong>#{completedOrder.order_number}</strong></p>
             <p className="success-text">
-              Your order has been recorded successfully. Please notify our team via WhatsApp to finalize delivery details.
+              {t('Order success text')}
             </p>
 
             <div className="delivery-disclaimer-card">
-              <span>⚠️ Delivery fee is not included in the subtotal ({formatPrice(completedOrder.subtotal)} {currency}) and will be added via WhatsApp.</span>
+              <span>{t('Delivery fee disclaimer', { subtotal: `${formatPrice(completedOrder.subtotal)} ${currency}` })}</span>
             </div>
 
             <a
@@ -113,11 +115,11 @@ export const CartDrawer = () => {
               className="btn-gold whatsapp-submit-btn"
             >
               <Send size={18} />
-              <span>CONTINUE TO WHATSAPP</span>
+              <span>{t('CONTINUE TO WHATSAPP')}</span>
             </a>
 
             <button className="btn-outline" onClick={handleClose} style={{ marginTop: '12px' }}>
-              Back to Menu
+              {t('Back to Menu')}
             </button>
           </div>
         ) : (
@@ -127,8 +129,8 @@ export const CartDrawer = () => {
             <div className="cart-items-section">
               {cart.length === 0 ? (
                 <div className="empty-cart-state">
-                  <p>Your bag is currently empty.</p>
-                  <span>Explore our luxury crepe collection to add items.</span>
+                  <p>{t('Empty cart text')}</p>
+                  <span>{t('Empty cart subtext')}</span>
                 </div>
               ) : (
                 cart.map(({ product, quantity }) => (
@@ -170,7 +172,7 @@ export const CartDrawer = () => {
             {cart.length > 0 && (
               <form onSubmit={handleSubmitOrder} className="checkout-form-section">
                 <div className="delivery-fee-disclaimer">
-                  <span>ℹ️ Delivery fee is not included in the subtotal and will be confirmed via WhatsApp.</span>
+                  <span>{t('Delivery fee note')}</span>
                 </div>
 
                 {error && (
@@ -187,34 +189,34 @@ export const CartDrawer = () => {
                     className={`type-btn ${orderType === 'delivery' ? 'active' : ''}`}
                     onClick={() => setOrderType('delivery')}
                   >
-                    Delivery
+                    {t('Delivery')}
                   </button>
                   <button
                     type="button"
                     className={`type-btn ${orderType === 'pickup' ? 'active' : ''}`}
                     onClick={() => setOrderType('pickup')}
                   >
-                    Pickup
+                    {t('Pickup')}
                   </button>
                 </div>
 
                 <div className="form-group">
-                  <label>Full Name *</label>
+                  <label>{t('Full Name *')}</label>
                   <input
                     type="text"
                     required
-                    placeholder="Enter your full name"
+                    placeholder={t('Enter your full name')}
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label>Phone Number *</label>
+                  <label>{t('Phone Number *')}</label>
                   <input
                     type="tel"
                     required
-                    placeholder="Enter your phone number"
+                    placeholder={t('Enter your phone number')}
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                   />
@@ -222,10 +224,10 @@ export const CartDrawer = () => {
 
                 {orderType === 'delivery' && (
                   <div className="form-group">
-                    <label>Delivery Address *</label>
+                    <label>{t('Delivery Address *')}</label>
                     <textarea
                       required
-                      placeholder="Street name, building, apartment, city"
+                      placeholder={t('Address placeholder')}
                       value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
                     ></textarea>
@@ -233,10 +235,10 @@ export const CartDrawer = () => {
                 )}
 
                 <div className="form-group">
-                  <label>Special Instructions (Optional)</label>
+                  <label>{t('Special Instructions (Optional)')}</label>
                   <input
                     type="text"
-                    placeholder="Extra chocolate, no nuts, etc."
+                    placeholder={t('Instructions placeholder')}
                     value={customerNotes}
                     onChange={(e) => setCustomerNotes(e.target.value)}
                   />
@@ -245,14 +247,14 @@ export const CartDrawer = () => {
                 {/* Subtotal & Submit */}
                 <div className="checkout-summary">
                   <div className="summary-row">
-                    <span>Subtotal</span>
+                    <span>{t('Subtotal')}</span>
                     <span className="summary-subtotal">
                       {formatPrice(subtotal)} {currency}
                     </span>
                   </div>
 
                   <button type="submit" className="btn-gold submit-order-btn" disabled={loading}>
-                    {loading ? 'PROCESSING...' : `PLACE ORDER • ${formatPrice(subtotal)} ${currency}`}
+                    {loading ? t('PROCESSING...') : `${t('PLACE ORDER')} • ${formatPrice(subtotal)} ${currency}`}
                   </button>
                 </div>
               </form>

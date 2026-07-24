@@ -119,6 +119,38 @@
   gap: var(--space-4);
 }
 
+.lang-toggle-btn {
+  background: var(--surface-truffle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  gap: 6px;
+  color: var(--text-almond);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lang-toggle-btn:hover {
+  border-color: var(--gold-foil);
+}
+
+.lang-toggle-btn span {
+  transition: color var(--transition-fast);
+}
+
+.lang-toggle-btn span.active {
+  color: var(--gold-foil);
+}
+
+.lang-divider {
+  opacity: 0.3;
+}
+
 .cart-pill-btn {
   display: inline-flex;
   align-items: center;
@@ -196,6 +228,42 @@
   }
 }
 
+@media (max-width: 414px) {
+  .navbar-container {
+    height: auto;
+    min-height: 64px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .navbar-actions {
+    gap: 8px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .cart-pill-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+  .cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+  }
+  .cart-total-badge {
+    display: none; /* Hide total on very small screens to save space */
+  }
+  .admin-lock-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .lang-toggle-btn {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+}
+
 .mobile-nav-overlay {
   position: fixed;
   top: 76px;
@@ -216,7 +284,7 @@
   color: var(--text-cream);
   font-family: var(--font-display);
   font-size: 1.25rem;
-  text-align: left;
+  text-align: start;
   padding: 12px 0;
   border-bottom: 1px solid var(--border-subtle);
   cursor: pointer;

@@ -4,6 +4,7 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { SplashScreen } from './components/SplashScreen';
 import { Navbar } from './components/Navbar';
+import { LanguageProvider } from './context/LanguageContext';
 import { Hero } from './components/Hero';
 import { MenuView } from './components/MenuView';
 import { AtelierStory } from './components/AtelierStory';
@@ -74,13 +75,15 @@ const MainApp = () => {
 
 export function App() {
   return (
-    <AuthProvider>
-      <ShopProvider>
-        <CartProvider>
-          <MainApp />
-        </CartProvider>
-      </ShopProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <ShopProvider>
+          <CartProvider>
+            <MainApp />
+          </CartProvider>
+        </ShopProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
 

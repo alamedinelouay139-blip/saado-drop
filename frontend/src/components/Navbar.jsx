@@ -3,11 +3,13 @@ import { ShoppingBag, Lock, Menu as MenuIcon, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useShop } from '../context/ShopContext';
 import { formatPrice } from '../utils/formatPrice';
+import { useLanguage } from '../context/LanguageContext';
 import './Navbar.css';
 
 export const Navbar = ({ onOpenAdmin, activeTab, setActiveTab }) => {
   const { totalItems, subtotal, setIsCartOpen } = useCart();
   const { shopSettings } = useShop();
+  const { language, toggleLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isAccepting = shopSettings?.is_accepting_orders === 1;
@@ -32,13 +34,19 @@ export const Navbar = ({ onOpenAdmin, activeTab, setActiveTab }) => {
           <div className={`status-pill ${isAccepting ? 'status-open' : 'status-closed'}`}>
             <span className="status-dot"></span>
             <span className="status-text">
-              {isAccepting ? 'Accepting Orders' : 'Currently Closed'}
+              {isAccepting ? t('Accepting Orders') : t('Currently Closed')}
             </span>
           </div>
         </nav>
 
         {/* Action Controls */}
         <div className="navbar-actions">
+          {/* Language Toggle */}
+          <button className="lang-toggle-btn" onClick={toggleLanguage} aria-label="Toggle Language">
+            <span className={language === 'en' ? 'active' : ''}>EN</span>
+            <span className="lang-divider">|</span>
+            <span className={language === 'ar' ? 'active' : ''}>AR</span>
+          </button>
           {/* Cart Button */}
           <button
             className="cart-pill-btn"
@@ -84,7 +92,7 @@ export const Navbar = ({ onOpenAdmin, activeTab, setActiveTab }) => {
               setMobileMenuOpen(false);
             }}
           >
-            Admin Portal
+            {t('Admin Portal')}
           </button>
         </div>
       )}

@@ -3,12 +3,14 @@ import { Plus, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useShop } from '../context/ShopContext';
 import { formatPrice } from '../utils/formatPrice';
+import { useLanguage } from '../context/LanguageContext';
 import { getImageUrl } from '../utils/imageUrl';
 import './ProductCard.css';
 
 export const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
   const { shopSettings } = useShop();
+  const { t } = useLanguage();
   const [added, setAdded] = useState(false);
 
   const currency = shopSettings?.currency || 'LBP';
@@ -35,7 +37,7 @@ export const ProductCard = ({ product }) => {
         {/* Availability Badge */}
         {!isAvailable && (
           <div className="sold-out-badge">
-            <span>Sold Out</span>
+            <span>{t('Sold Out')}</span>
           </div>
         )}
       </div>
@@ -62,12 +64,12 @@ export const ProductCard = ({ product }) => {
             {added ? (
               <>
                 <Check size={16} />
-                <span>Added to Bag</span>
+                <span>{t('Added to Bag')}</span>
               </>
             ) : (
               <>
                 <Plus size={16} />
-                <span>Add to Order</span>
+                <span>{t('Add to Order')}</span>
               </>
             )}
           </button>

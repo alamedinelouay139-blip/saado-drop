@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, Sparkles } from 'lucide-react';
 import { api } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 import { ProductCard } from './ProductCard';
 import './MenuView.css';
 
@@ -11,6 +12,7 @@ export const MenuView = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useLanguage();
 
   const fetchData = async () => {
     setLoading(true);
@@ -44,11 +46,11 @@ export const MenuView = () => {
         <div className="menu-header">
           <div className="menu-badge">
             <Sparkles size={14} className="text-gold" />
-            <span>✦ SIGNATURE COLLECTION</span>
+            <span>✦ {t('SIGNATURE COLLECTION')}</span>
           </div>
-          <h2 className="menu-title">A MENU CRAFTED TO INDULGE</h2>
+          <h2 className="menu-title">{t('Menu Title')}</h2>
           <p className="menu-subtitle">
-            Discover artisan crepes, premium chocolate creations, refreshing drinks, handcrafted milkshakes, and carefully curated desserts made fresh for every order.
+            {t('Menu Subtitle')}
           </p>
         </div>
 
@@ -60,7 +62,7 @@ export const MenuView = () => {
               className={`cat-tab ${selectedCategory === null ? 'active' : ''}`}
               onClick={() => setSelectedCategory(null)}
             >
-              ALL CREATIONS
+              {t('ALL CREATIONS')}
             </button>
             {categories.map((cat) => (
               <button
@@ -78,7 +80,7 @@ export const MenuView = () => {
             <Search size={18} className="search-icon" />
             <input
               type="text"
-              placeholder="Search crepes or ingredients..."
+              placeholder={t('Search placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -94,20 +96,20 @@ export const MenuView = () => {
         {loading ? (
           <div className="menu-loading-state">
             <div className="loading-spinner"></div>
-            <p>Fetching Atelier Collection...</p>
+            <p>{t('Fetching Atelier Collection...')}</p>
           </div>
         ) : error ? (
           <div className="menu-error-state">
             <p>{error}</p>
             <button className="btn-outline" onClick={fetchData}>
-              Try Again
+              {t('Try Again')}
             </button>
           </div>
         ) : products.length === 0 ? (
           <div className="menu-empty-state">
             <Filter size={40} className="text-gold" />
-            <h3>No Creations Found</h3>
-            <p>Try searching for a different creation or select another category.</p>
+            <h3>{t('No Creations Found')}</h3>
+            <p>{t('Try searching for a different creation or select another category.')}</p>
           </div>
         ) : (
           <div className="products-grid">

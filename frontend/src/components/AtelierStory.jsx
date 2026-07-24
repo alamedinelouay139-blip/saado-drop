@@ -1,11 +1,13 @@
 import React from 'react';
 import { Sparkles, HeartHandshake, Award, Leaf, Coffee, MessageSquare } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { useLanguage } from '../context/LanguageContext';
 import atelierImage from '../assets/images/haute-dessert-craftsmanship.jpg';
 import './AtelierStory.css';
 
 export const AtelierStory = () => {
   const { shopSettings } = useShop();
+  const { t } = useLanguage();
 
   const whatsapp = shopSettings?.whatsapp_number || '+96100000000';
   const cleanPhone = whatsapp.replace(/[^0-9]/g, '');
@@ -18,36 +20,33 @@ export const AtelierStory = () => {
           <div className="story-content">
             <div className="story-badge">
               <Sparkles size={14} className="text-gold" />
-              <span>✦ OUR PHILOSOPHY</span>
+              <span>✦ {t('ABOUT US Label')}</span>
             </div>
-            <h2 className="story-title">CRAFTED FOR EVERY MOMENT</h2>
+            <h2 className="story-title" style={{ whiteSpace: 'pre-line' }}>{t('About Title')}</h2>
             <p className="story-text">
-              We believe exceptional desserts begin with exceptional ingredients.
-            </p>
-            <p className="story-text">
-              From handcrafted crepes and rich Belgian chocolate to refreshing cocktails, milkshakes, and fresh fruits, every creation is prepared with precision, passion, and attention to every detail.
+              {t('About Description')}
             </p>
 
             <div className="story-features">
               <div className="feature-card surface-card">
-                <Award size={24} className="text-gold" />
-                <h4>Premium Belgian Chocolate</h4>
-                <p>Crafted with authentic Belgian chocolate for a rich, smooth, and luxurious taste.</p>
-              </div>
-              <div className="feature-card surface-card">
                 <HeartHandshake size={24} className="text-gold" />
-                <h4>Fresh To Order</h4>
-                <p>Prepared individually for every guest to ensure the perfect texture and freshness.</p>
+                <h4>{t('Feature 1 Title')}</h4>
+                <p>{t('Feature 1 Desc')}</p>
               </div>
               <div className="feature-card surface-card">
-                <Leaf size={24} className="text-gold" />
-                <h4>Fresh Ingredients</h4>
-                <p>Selected fruits, premium toppings, and quality ingredients in every creation.</p>
+                <Award size={24} className="text-gold" />
+                <h4>{t('Feature 2 Title')}</h4>
+                <p>{t('Feature 2 Desc')}</p>
               </div>
               <div className="feature-card surface-card">
                 <Coffee size={24} className="text-gold" />
-                <h4>Signature Drinks</h4>
-                <p>Refreshing cocktails, handcrafted milkshakes, and beverages designed to complement every dessert.</p>
+                <h4>{t('Feature 3 Title')}</h4>
+                <p>{t('Feature 3 Desc')}</p>
+              </div>
+              <div className="feature-card surface-card">
+                <Leaf size={24} className="text-gold" />
+                <h4>{t('Feature 4 Title')}</h4>
+                <p>{t('Feature 4 Desc')}</p>
               </div>
             </div>
           </div>
@@ -62,38 +61,39 @@ export const AtelierStory = () => {
           </div>
         </div>
 
-        {/* WhatsApp & Contact Banner */}
-        <div className="contact-banner surface-card">
-          <div className="contact-info">
-            <h3 className="contact-title">CATERING & PRIVATE EVENTS</h3>
-            <p className="contact-subtitle">From birthdays and celebrations to corporate gatherings and private events, SAADO DROP brings handcrafted desserts and signature drinks to every occasion with elegance and attention to detail.</p>
-          </div>
-          <a
-            href={`https://wa.me/${cleanPhone}?text=Hello%20SAADO%20DROP!%20I%20have%20an%20inquiry%20about%20a%20custom%20order.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-gold"
-          >
-            <MessageSquare size={18} />
-            <span>Contact Us</span>
-          </a>
-        </div>
-
         {/* Footer */}
         <footer className="footer-bar">
           <div className="footer-col" style={{ maxWidth: '320px' }}>
             <span className="footer-brand">SAADO <span>DROP</span></span>
             <p className="footer-copy" style={{ color: 'var(--text-almond)', marginTop: '8px', lineHeight: '1.5' }}>
-              Luxury artisan crepes, premium Belgian chocolate, handcrafted drinks, and unforgettable dessert experiences—prepared fresh, every day.
+              {t('Hero Description')}
             </p>
             <p className="footer-copy" style={{ marginTop: '16px' }}>© {new Date().getFullYear()} SAADO DROP. All Rights Reserved.</p>
           </div>
 
-          <div className="footer-col" style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-            <a href="#menu" className="footer-item" style={{ textDecoration: 'none' }}>Menu</a>
-            <a href="#about" className="footer-item" style={{ textDecoration: 'none' }}>About</a>
-            <a href="#contact" className="footer-item" style={{ textDecoration: 'none' }}>Contact</a>
-            <a href="#" className="footer-item" style={{ textDecoration: 'none' }}>Instagram</a>
+          <div className="footer-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+              <a href="#menu" className="footer-item" style={{ textDecoration: 'none' }}>{t('Menu')}</a>
+              <a href="#about" className="footer-item" style={{ textDecoration: 'none' }}>{t('About')}</a>
+            </div>
+            
+            <a 
+              href="https://www.instagram.com/saado_drop?igsh=MWpocmthYTZ2NHB3Mg==" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-outline instagram-btn"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 16px', marginTop: '8px' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '0.8rem', lineHeight: '1', marginBottom: '2px' }}>{t('Follow us on Instagram')}</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: '600', lineHeight: '1' }}>@saado_drop</span>
+              </div>
+            </a>
           </div>
         </footer>
       </div>

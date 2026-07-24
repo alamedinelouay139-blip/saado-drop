@@ -1,9 +1,11 @@
 import React from 'react';
 import { ArrowRight, Sparkles, ShieldCheck, Flame, GlassWater } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 import heroImage from '../assets/images/hero-saado-drop.jpg';
 import './Hero.css';
 
 export const Hero = ({ onExplore }) => {
+  const { t } = useLanguage();
   return (
     <section className="hero-section">
       {/* Ambient Radial Background Glow */}
@@ -14,26 +16,26 @@ export const Hero = ({ onExplore }) => {
         <div className="hero-content">
           <div className="hero-pill-tag">
             <Sparkles size={14} className="text-gold" />
-            <span>✦ ARTISAN CREPES • BELGIAN CHOCOLATE • SIGNATURE DRINKS</span>
+            <span>✦ {t('Hero Badge')}</span>
           </div>
 
           <h1 className="hero-title">
-            CRAFTED CREPES <br />
-            <span className="hero-title-accent">BELGIAN CHOCOLATE</span> <br />
-            SIGNATURE DRINKS
+            {t('Hero Title Line 1')} <br />
+            <span className="hero-title-accent">{t('Hero Title Line 2')}</span> <br />
+            {t('Hero Title Line 3')}
           </h1>
 
           <p className="hero-description">
-            Every order is prepared fresh using premium Belgian chocolate, handcrafted crepes, seasonal fruits, signature milkshakes, refreshing cocktails, and carefully selected ingredients—crafted to deliver an exceptional dessert experience.
+            {t('Hero Description')}
           </p>
 
           <div className="hero-actions">
             <button className="btn-gold" onClick={onExplore}>
-              <span>Explore Menu</span>
+              <span>{t('Explore Menu')}</span>
               <ArrowRight size={18} />
             </button>
             <a href="#about" className="btn-outline">
-              Our Atelier
+              {t('About Us')}
             </a>
           </div>
 
@@ -41,17 +43,17 @@ export const Hero = ({ onExplore }) => {
           <div className="hero-badges">
             <div className="hero-badge-item">
               <Flame size={16} className="text-gold" />
-              <span>Made Fresh To Order</span>
+              <span>{t('Hero Feature 1')}</span>
             </div>
             <div className="hero-badge-divider"></div>
             <div className="hero-badge-item">
               <ShieldCheck size={16} className="text-gold" />
-              <span>Premium Belgian Chocolate</span>
+              <span>{t('Hero Feature 2')}</span>
             </div>
             <div className="hero-badge-divider"></div>
             <div className="hero-badge-item">
               <GlassWater size={16} className="text-gold" />
-              <span>Fresh Signature Drinks</span>
+              <span>{t('Hero Feature 3')}</span>
             </div>
           </div>
         </div>
