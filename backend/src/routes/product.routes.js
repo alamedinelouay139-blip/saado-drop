@@ -18,18 +18,7 @@ router.get('/', asyncHandler(productController.getProducts));
 router.get('/:id', asyncHandler(productController.getProductById));
 
 const handleImageUpload = (req, res, next) => {
-  // Prevent requests from hanging indefinitely due to Multer/Express stream issues
-  let isDone = false;
-  const timeoutId = setTimeout(() => {
-    if (!isDone && !res.headersSent) {
-      console.error('Multer upload timed out after 10s');
-      res.status(408).json({ success: false, message: 'Request timeout during file upload' });
-    }
-  }, 10000);
-
   upload.single('image')(req, res, (err) => {
-    isDone = true;
-    clearTimeout(timeoutId);
     if (err) {
       console.error('Multer upload error:', err);
       return res.status(400).json({ success: false, message: 'File upload error', error: err.message });

@@ -18,11 +18,13 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.6.0",
+    "formdata-node": "^6.0.3",
     "helmet": "^8.3.0",
     "imagekit": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "mariadb": "^3.5.3",
-    "multer": "^2.2.0"
+    "multer": "^2.2.0",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

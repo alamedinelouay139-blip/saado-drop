@@ -39,6 +39,9 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(limiter);
 }
 
+// API Routes that need raw streams (like multipart) should go BEFORE global body parsers to prevent interference
+app.use("/api/products", productRoutes);
+
 // 4 & 5. Body parsing with safe limits
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true, limit: "1mb" }));
@@ -48,7 +51,6 @@ app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use("/api/health", healthRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
 app.use("/api/shop-settings", shopSettingsRoutes);
