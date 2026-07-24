@@ -321,3 +321,72 @@
   padding: 10px 14px;
   border-radius: var(--radius-md);
 }
+
+/* Mobile Admin Sidebar Fixes */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-cream);
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+.mobile-close-sidebar-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-cream);
+  cursor: pointer;
+}
+
+.workspace-header-title-group {
+  display: flex;
+  align-items: center;
+}
+
+.admin-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 255;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .mobile-close-sidebar-btn {
+    display: inline-flex;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
+
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -280px;
+    width: 280px;
+    z-index: 260;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(280px);
+  }
+
+  .admin-sidebar-backdrop.open {
+    display: block;
+  }
+
+  .admin-workspace {
+    width: 100%;
+    padding: var(--space-4);
+  }
+}

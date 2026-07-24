@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   ShoppingBag, Package, FolderTree, Settings, LogOut, X, 
-  MessageSquare, RefreshCw, Plus, Trash2, Edit, Save, AlertCircle, CheckCircle2, Lock, Archive 
+  MessageSquare, RefreshCw, Plus, Trash2, Edit, Save, AlertCircle, CheckCircle2, Lock, Archive, Menu 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContext';
@@ -18,6 +18,7 @@ export const AdminDashboard = ({ onClose }) => {
   const { refreshSettings } = useShop();
 
   const [activeTab, setActiveTab] = useState('orders');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Orders State
   const [orders, setOrders] = useState([]);
@@ -428,18 +429,27 @@ export const AdminDashboard = ({ onClose }) => {
   };
 
   return (
-    <div className="admin-dashboard-layout">
+    <div className={`admin-dashboard-layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+      {/* Mobile Backdrop */}
+      <div 
+        className={`admin-sidebar-backdrop ${isSidebarOpen ? 'open' : ''}`} 
+        onClick={() => setIsSidebarOpen(false)}
+      ></div>
+
       {/* Sidebar Navigation */}
-      <aside className="admin-sidebar">
+      <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-brand">
           <span className="brand-title">SAADO <span>DROP</span></span>
           <span className="admin-tag">SaaS Admin Portal</span>
+          <button className="mobile-close-sidebar-btn" onClick={() => setIsSidebarOpen(false)}>
+            <X size={24} />
+          </button>
         </div>
 
         <nav className="sidebar-menu">
           <button
             className={`sidebar-link ${activeTab === 'orders' ? 'active' : ''}`}
-            onClick={() => setActiveTab('orders')}
+            onClick={() => { setActiveTab('orders'); setIsSidebarOpen(false); }}
           >
             <ShoppingBag size={18} />
             <span>Customer Orders</span>
@@ -447,7 +457,7 @@ export const AdminDashboard = ({ onClose }) => {
 
           <button
             className={`sidebar-link ${activeTab === 'products' ? 'active' : ''}`}
-            onClick={() => setActiveTab('products')}
+            onClick={() => { setActiveTab('products'); setIsSidebarOpen(false); }}
           >
             <Package size={18} />
             <span>Product Catalog</span>
@@ -455,7 +465,7 @@ export const AdminDashboard = ({ onClose }) => {
 
           <button
             className={`sidebar-link ${activeTab === 'categories' ? 'active' : ''}`}
-            onClick={() => setActiveTab('categories')}
+            onClick={() => { setActiveTab('categories'); setIsSidebarOpen(false); }}
           >
             <FolderTree size={18} />
             <span>Categories</span>
@@ -463,7 +473,7 @@ export const AdminDashboard = ({ onClose }) => {
 
           <button
             className={`sidebar-link ${activeTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('settings')}
+            onClick={() => { setActiveTab('settings'); setIsSidebarOpen(false); }}
           >
             <Settings size={18} />
             <span>Shop Settings</span>
@@ -471,7 +481,7 @@ export const AdminDashboard = ({ onClose }) => {
 
           <button
             className={`sidebar-link ${activeTab === 'security' ? 'active' : ''}`}
-            onClick={() => setActiveTab('security')}
+            onClick={() => { setActiveTab('security'); setIsSidebarOpen(false); }}
           >
             <Lock size={18} />
             <span>Security</span>
@@ -496,13 +506,18 @@ export const AdminDashboard = ({ onClose }) => {
       <main className="admin-workspace">
         {/* Workspace Top Header */}
         <header className="workspace-header">
-          <h2>
-            {activeTab === 'orders' && 'Order Management'}
-            {activeTab === 'products' && 'Product Catalog'}
-            {activeTab === 'categories' && 'Category Management'}
-            {activeTab === 'settings' && 'Global Shop Settings'}
-            {activeTab === 'security' && 'Security Settings'}
-          </h2>
+          <div className="workspace-header-title-group">
+            <button className="mobile-menu-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+              <Menu size={24} />
+            </button>
+            <h2>
+              {activeTab === 'orders' && 'Order Management'}
+              {activeTab === 'products' && 'Product Catalog'}
+              {activeTab === 'categories' && 'Category Management'}
+              {activeTab === 'settings' && 'Global Shop Settings'}
+              {activeTab === 'security' && 'Security Settings'}
+            </h2>
+          </div>
 
           {activeTab === 'orders' && (
             <button className="btn-outline refresh-btn" onClick={() => fetchOrders(ordersPagination.page)}>
