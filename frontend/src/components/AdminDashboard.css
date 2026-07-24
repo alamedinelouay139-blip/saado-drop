@@ -389,4 +389,66 @@
     width: 100%;
     padding: var(--space-4);
   }
+
+  /* Mobile Responsive Table Cards */
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table, 
+  .admin-table tbody, 
+  .admin-table tr, 
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table tr {
+    background: var(--surface-roasted);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  .admin-table td[data-label] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: right;
+  }
+
+  .admin-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .admin-table td:first-child {
+    padding-top: 0;
+  }
+
+  .admin-table td[data-label]::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-almond);
+    text-transform: uppercase;
+    text-align: left;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+
+  .admin-table td > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .table-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
 }

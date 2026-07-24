@@ -577,18 +577,18 @@ export const AdminDashboard = ({ onClose }) => {
                   ) : (
                     orders.map((o) => (
                       <tr key={o.id}>
-                        <td className="font-mono text-gold">#{o.order_number}</td>
-                        <td>
+                        <td data-label="Order #" className="font-mono text-gold">#{o.order_number}</td>
+                        <td data-label="Customer">
                           <strong>{o.customer_name}</strong>
                           <div className="table-subtext">{o.customer_phone}</div>
                         </td>
-                        <td>
+                        <td data-label="Type">
                           <span className={`type-badge ${o.order_type}`}>
                             {o.order_type.toUpperCase()}
                           </span>
                         </td>
-                        <td className="font-mono">{formatPrice(o.subtotal)}</td>
-                        <td>
+                        <td data-label="Subtotal" className="font-mono">{formatPrice(o.subtotal)}</td>
+                        <td data-label="Status">
                           <select
                             className={`status-select status-${o.status}`}
                             value={o.status}
@@ -602,8 +602,8 @@ export const AdminDashboard = ({ onClose }) => {
                             <option value="cancelled">CANCELLED</option>
                           </select>
                         </td>
-                        <td className="table-subtext">{new Date(o.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                        <td>
+                        <td data-label="Created" className="table-subtext">{new Date(o.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                        <td data-label="Actions">
                           <div className="table-actions">
                             <button
                               className="action-btn"
@@ -718,20 +718,20 @@ export const AdminDashboard = ({ onClose }) => {
                 <tbody>
                   {products.map((p) => (
                     <tr key={p.id} className={p.is_active === 0 ? 'row-deactivated' : ''}>
-                      <td>
+                      <td data-label="Image">
                         <img
                           src={getImageUrl(p.image_url)}
                           alt={p.name}
                           className="table-img"
                         />
                       </td>
-                      <td>
+                      <td data-label="Product Name">
                         <strong>{p.name}</strong>
                         {p.is_active === 0 && <span className="deactivated-badge" style={{ marginLeft: '8px', background: '#333', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontSize: '11px' }}>Archived</span>}
                       </td>
-                      <td>{categories.find((c) => c.id === p.category_id)?.name || 'General'}</td>
-                      <td className="font-mono text-gold">{formatPrice(p.price)}</td>
-                      <td>
+                      <td data-label="Category">{categories.find((c) => c.id === p.category_id)?.name || 'General'}</td>
+                      <td data-label="Price" className="font-mono text-gold">{formatPrice(p.price)}</td>
+                      <td data-label="Status">
                         {p.is_active === 1 ? (
                           <span className={`avail-badge ${p.is_available === 1 ? 'open' : 'closed'}`}>
                             {p.is_available === 1 ? 'Available' : 'Sold Out'}
@@ -740,7 +740,7 @@ export const AdminDashboard = ({ onClose }) => {
                           <span className="avail-badge closed" style={{ background: '#444' }}>Archived</span>
                         )}
                       </td>
-                      <td>
+                      <td data-label="Actions">
                         <div className="table-actions">
                           <button className="action-btn" onClick={() => openEditProduct(p)} title="Edit Product">
                             <Edit size={14} />
@@ -800,10 +800,10 @@ export const AdminDashboard = ({ onClose }) => {
                 <tbody>
                   {categories.map((c) => (
                     <tr key={c.id}>
-                      <td className="font-mono">#{c.id}</td>
-                      <td><strong>{c.name}</strong></td>
-                      <td><span className="avail-badge open">Active</span></td>
-                      <td>
+                      <td data-label="Category ID" className="font-mono">#{c.id}</td>
+                      <td data-label="Category Name"><strong>{c.name}</strong></td>
+                      <td data-label="Status"><span className="avail-badge open">Active</span></td>
+                      <td data-label="Actions">
                         <div className="table-actions">
                           <button className="action-btn delete-action" onClick={() => handleDeleteCategoryRequest(c)}>
                             <Trash2 size={14} />
