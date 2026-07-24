@@ -55,7 +55,7 @@ const handleImageUpload = (req, res, next) => {
 };
 
 // We use upload.single('image') for parsing multipart/form-data.
-router.post('/', authMiddleware, handleImageUpload, asyncHandler(productController.createProduct));
+router.post('/', handleImageUpload, asyncHandler(productController.createProduct));
 router.patch('/:id', authMiddleware, handleImageUpload, asyncHandler(productController.updateProduct));
 router.delete('/:id', authMiddleware, asyncHandler(productController.archiveProduct));
 router.patch('/:id/restore', authMiddleware, asyncHandler(productController.restoreProduct));

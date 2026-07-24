@@ -149,7 +149,12 @@ const createProduct = async (req, res) => {
     imageUrl = uploadResult.secure_url;
     imageFileId = uploadResult.fileId;
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Image upload failed', error: err.message });
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Image upload failed', 
+      error: err.message,
+      stack: err.stack 
+    });
   }
 
   const productData = { ...validation.data, image_url: imageUrl, image_file_id: imageFileId };
@@ -214,7 +219,12 @@ const updateProduct = async (req, res) => {
       updateData.image_file_id = uploadResult.fileId;
       newImageFileId = uploadResult.fileId;
     } catch (err) {
-      return res.status(500).json({ success: false, message: 'Image upload failed', error: err.message });
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Image upload failed', 
+        error: err.message,
+        stack: err.stack 
+      });
     }
   }
 
