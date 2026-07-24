@@ -25,7 +25,10 @@ export const MenuView = () => {
           search: searchQuery.trim(),
         }),
       ]);
-      setCategories(catRes.data || []);
+      const rawCategories = catRes.data || [];
+      const crepesCat = rawCategories.find(c => c.name.toLowerCase() === 'crepes');
+      const otherCats = rawCategories.filter(c => c.name.toLowerCase() !== 'crepes');
+      setCategories(crepesCat ? [crepesCat, ...otherCats] : rawCategories);
       setProducts(prodRes.data || []);
     } catch (err) {
       console.error('Error fetching menu data:', err);
